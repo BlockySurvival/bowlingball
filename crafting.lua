@@ -2,7 +2,7 @@
 The crafting recipe can be a bit variable to avoid conflicts.
 for now, utilise homedecor's plastic sheets and default iron/steel ingot.
 ]]
-local p = "homedecor:plastic_sheeting"
+local p = "basic_materials:plastic_sheet"
 local m = "default:steel_ingot"
 local c = "default:steelblock"
 local e = ""
@@ -10,7 +10,7 @@ local e = ""
 local hasmod = function(name)
 	return minetest.get_modpath(name) ~= nil
 end
-if hasmod("default") and hasmod("homedecor") then
+if hasmod("default") and hasmod("basic_materials") then
 	minetest.register_craft({
 		output = "bowlingball:ball",
 		recipe = {
