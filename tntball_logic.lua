@@ -19,7 +19,7 @@ tntdef = {
 }
 
 local step = function(self, dtime)
-	local oldv = self.previous
+	local oldv = self._previous
 	local o = self.object
 	local newv = o:get_velocity()
 
@@ -40,7 +40,7 @@ local step = function(self, dtime)
 		end
 	end
 
-	self.previous = newv
+	self._previous = newv
 end
 
 
