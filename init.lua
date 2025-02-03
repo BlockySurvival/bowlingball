@@ -91,10 +91,10 @@ local step = function(self, dtime)
 
 	-- if this is the first tick,
 	-- we won't have a previous velocity yet, so skip the processing
-	local oldv = self.previous
+	local oldv = self._previous
 	local newv = self.object:get_velocity()
 	if not oldv then
-		self.previous = newv
+		self._previous = newv
 		return
 	end
 
@@ -109,7 +109,7 @@ local step = function(self, dtime)
 		--print("# updating velocity")
 		self.object:set_velocity(newv)
 	end
-	self.previous = newv
+	self._previous = newv
 end
 
 -- object is fairly dense.
@@ -152,16 +152,18 @@ end
 
 local tex = "bowlingball_ball.png"
 minetest.register_entity(n, {
-	visual = "sprite",
-	visual_size = {x=0.75,y=0.75},
-	textures = { tex },
+	initial_properties = {
+		visual = "sprite",
+		visual_size = {x=0.75,y=0.75},
+		textures = { tex },
+		physical = true,
+		collide_with_objects = true,
+		collisionbox = {-r, -r, -r, r, r, r},
+	},
 	on_activate = on_activate,
 	on_step = step,
-	physical = true,
-	collide_with_objects = true,
-	collisionbox = {-r, -r, -r, r, r, r},
-	on_rightclick = on_rightclick,
 	on_punch = on_punch,
+	on_rightclick = on_rightclick,
 })
 -- TNT version
 
@@ -169,17 +171,19 @@ if minetest.get_modpath("tnt") ~= nil then
 	local tnt_step = dofile(mp.."tntball_logic.lua")
 
 	minetest.register_entity("bowlingball:tntball", {
-		visual = "sprite",
-		visual_size = {x=0.75,y=0.75},
-		textures = { "bowlingball_tntball.png" },
+		initial_properties = {
+			visual = "sprite",
+			visual_size = {x=0.75,y=0.75},
+			textures = { "bowlingball_tntball.png" },
+			physical = true,
+			collide_with_objects = true,
+			collisionbox = {-r, -r, -r, r, r, r},
+		},
 		-- same armor groups and gravity, currently
 		on_activate = on_activate,
 		on_step = tnt_step,
-		physical = true,
-		collide_with_objects = true,
-		collisionbox = {-r, -r, -r, r, r, r},
-		-- no on_rightclick, can't pick up a bomb... mwuhahahaha
 		on_punch = on_punch,
+		-- no on_rightclick, can't pick up a bomb... mwuhahahaha
 	})
 end
 
